@@ -1,0 +1,3 @@
+title=FlPy
+author=Us
+orientation=portrait
