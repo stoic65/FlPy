@@ -9,15 +9,25 @@ from kivy.garden.androidtabs import *
 from kivy.uix.button import Button
 
 
-
-class FlpyApp(App):
+class MyTab(BoxLayout,AndroidTabsBase):
     pass
-
-
-
-
+class MainView(BoxLayout):
+    pass
 class Shelf(BoxLayout):
     pass
+class TopBar(BoxLayout):
+    pass
+
+
+class FlpyApp(App):
+    def build(self):
+        view = MainView()
+        return view
+
+
+
+
+
 class MyTab():
     pass
 if __name__ == '__main__':

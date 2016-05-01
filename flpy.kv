@@ -5,14 +5,11 @@
             id:"inner_shelf"
             pos: self.pos
             size: self.size
-            source:self.parent.parent.inner
+            source:"wood3.png"
 
 
 
-<MyTab@BoxLayout+AndroidTabsBase>:
-
-    outer:None
-    inner:None
+<MyTab>:
     text: "Something"
     BoxLayout:
         orientation: 'vertical'
@@ -20,51 +17,39 @@
         padding:self.parent.width/15,self.parent.height/15,self.parent.width/15,self.parent.height/15
         canvas:
             Rectangle:
-                source:self.parent.outer
+                source:"wood2.png"
                 pos: self.pos
                 size: self.size
         Shelf:
         Shelf:
         Shelf:
-BoxLayout:
-    orientation:"vertical"
-    BoxLayout:
-        size_hint_y:None
-        height:self.parent.height/15
-        canvas:
-            Rectangle:
-                pos:self.pos
-                size:self.size
-                source:"tabColor.jpeg"
-        Label:
-            text:"FlPy"
-            font_size:self.parent.height/2
+<TopBar>:
+    size_hint_y:1/15
+    canvas:
+        Rectangle:
+            pos:self.pos
+            size:self.size
+            source:"tabColor.jpeg"
+    Label:
+        text:"FlPy"
+        font_size:self.parent.height/2
 
+<MainView>:
+    orientation:"vertical"
+    TopBar:
     AndroidTabs:
 
         MyTab:
-            id:tab1
-            inner:"wood3.png"
-            outer:"wood2.png"
             text: 'GENRE ONE'
 
         MyTab:
-            id:tab2
             text: 'GENRE TWO'
-            inner:"wood3.png"
-            outer:"wood2.png"
+
         MyTab:
-            id:tab2
             text: 'GENRE THREE'
-            inner:"wood3.png"
-            outer:"wood2.png"
+
         MyTab:
-            id:tab2
             text: 'GENRE FOUR'
-            inner:"wood3.png"
-            outer:"wood2.png"
+
         MyTab:
-            id:tab2
             text: 'GENRE FIVE'
-            inner:"wood3.png"
-            outer:"wood2.png"
