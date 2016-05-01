@@ -7,29 +7,36 @@ import time
 from kivy.uix.boxlayout import BoxLayout
 from kivy.garden.androidtabs import *
 from kivy.uix.button import Button
+from kivy.lang import Builder
 
-
+class TopBar(BoxLayout):
+    pass
 class MyTab(BoxLayout,AndroidTabsBase):
     pass
 class MainView(BoxLayout):
     pass
 class Shelf(BoxLayout):
     pass
-class TopBar(BoxLayout):
+class AndTab(AndroidTabs):
     pass
 
 
 class FlpyApp(App):
     def build(self):
-        view = MainView()
+        view = MainView(orientation="vertical")
+        view.add_widget(TopBar())
+        ShelfView = AndTab()
+        for i in range(5):
+            ShelfView.add_widget(MyTab(text=str(i)))
+        view.add_widget(ShelfView)
+
         return view
 
 
 
 
 
-class MyTab():
-    pass
+
 if __name__ == '__main__':
     #Window.clearcolor = get_color_from_hex('#101216')
 
