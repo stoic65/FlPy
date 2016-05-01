@@ -1,5 +1,8 @@
 
 <Shelf>:
+    orientation:"horizontal"
+    padding:20,5,20,5
+    spacing:10
     canvas:
         Rectangle:
             id:"inner_shelf"
@@ -8,8 +11,13 @@
             source:"wood3.png"
 
 
+<BookButton>:
+    size_hint_x:None
+    width:100
+
 
 <MyTab>:
+    id:taby
     text: "Something"
     BoxLayout:
         orientation: 'vertical'
@@ -21,8 +29,12 @@
                 pos: self.pos
                 size: self.size
         Shelf:
+            id:"Shelf1"
         Shelf:
+            id:"Shelf2"
         Shelf:
+            id:"Shelf3"
+
 <TopBar>:
     size_hint_y:1/15
     canvas:

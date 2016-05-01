@@ -19,17 +19,27 @@ class Shelf(BoxLayout):
     pass
 class AndTab(AndroidTabs):
     pass
-
-
+class BookButton(Button):
+    pass
 class FlpyApp(App):
     def build(self):
         view = MainView(orientation="vertical")
         view.add_widget(TopBar())
         ShelfView = AndTab()
-        for i in range(5):
-            ShelfView.add_widget(MyTab(text=str(i)))
+        DifferentTabs = []
+        for i in range(3):
+            DifferentTabs.append(MyTab(text=str(i)))
+            ShelfView.add_widget(DifferentTabs[i])
         view.add_widget(ShelfView)
 
+        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
+        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
+        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
+
+
+
+        #view.children[0].add_widget(MyTab(text="yo"))
+        print (ShelfView.children)
         return view
 
 
