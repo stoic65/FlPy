@@ -18,7 +18,7 @@ class FlpyApp(App):
 
 class Shelf(BoxLayout):
     pass
-class another(BoxLayout):
+class MyTab():
     pass
 if __name__ == '__main__':
     #Window.clearcolor = get_color_from_hex('#101216')
