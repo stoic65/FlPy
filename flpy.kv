@@ -37,13 +37,39 @@
 
 <TopBar>:
     size_hint_y:1/15
+    padding:30,5,30,5
+    spacing:(self.width)/2
     canvas:
         Rectangle:
             pos:self.pos
             size:self.size
             source:"tabColor.jpeg"
     Label:
+        pos_x:"right"
         text:"FlPy"
         font_size:self.parent.height/2
+        size_hint_x:0
+        width:self.parent.width/5
+        text_pos:"left"
+        halign:"left"
 
+    Button:
+        text:"Add More"
+        pos_x:"right"
+        size_hint_x:None
+        width:self.parent.width/10
+        on_release:root.add_more()
+
+<MyWidget>:
+    orientation:'vertical'
+    padding:20,20,10,10
+    id: my_widget
+    Button
+        id:my_button
+        text: "open"
+        size_hint_y:None
+        height:70
+        on_release: my_widget.open(filechooser.path, filechooser.selection)
+    FileChooserIconView:
+        id: filechooser
 
