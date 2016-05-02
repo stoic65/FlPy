@@ -1,3 +1,4 @@
+from __future__ import division
 from kivy.app import App
 from kivy.core.text import LabelBase
 from kivy.core.window import Window
@@ -37,7 +38,7 @@ class BookButton(Button):
 def shelfLoader(root):
 
     #Calculate here number of books in json store
-    NumberOfBooks = store.count()  #Assumedher
+    NumberOfBooks = 14  #Assumedher
     ShelfView = AndTab()
     DifferentTabs = []
     for i in range((NumberOfBooks//12)+1):
@@ -56,6 +57,7 @@ def shelfLoader(root):
 
 
 class TopBar(BoxLayout):
+
     def add_more(self):
         self.parent.remove_widget(self.parent.children[0])
         self.parent.add_widget(MyWidget())
