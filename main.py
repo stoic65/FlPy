@@ -14,7 +14,6 @@ import os.path
 #from PyPDF2 import PdfFileReader
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-store = JsonStore('book1.json')
 #store.put('books',pdf=[],pdfi=[],code=[],codei=[],extra=[],extrai=[],all=[],alli=[])
 import os
 text='rahul'
@@ -38,22 +37,28 @@ class BookButton(Button):
 def shelfLoader(root):
 
     #Calculate here number of books in json store
-    NumberOfBooks = 14  #Assumedher
+    bookList = list(store.find())
+    NumberOfBooks =  len(bookList) #store.count()#Assumedher
+
+   # print NumberOfBooks
     ShelfView = AndTab()
     DifferentTabs = []
     for i in range((NumberOfBooks//12)+1):
         DifferentTabs.append(MyTab(text=str(i)))
         ShelfView.add_widget(DifferentTabs[i])
-    root.add_widget(ShelfView)
 
-    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
-    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
-    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg",text="Hello"))
-    print(root.children)
+    root.add_widget(ShelfView)
+    for i in range(NumberOfBooks):
+        #print(bookList[i][1]["image"])
+        DifferentTabs[i//12].children[0].children[-1-(i%12)//3].add_widget(BookButton(background_normal=bookList[i][1]["image"]))
+
+
+
+   # print(root.children)
 
 
         #view.children[0].add_widget(MyTab(text="yo"))
-    print (ShelfView.children)
+   # print (ShelfView.children)
 
 
 class TopBar(BoxLayout):
@@ -95,22 +100,15 @@ class MyWidget(BoxLayout,Screen):
             fullPath = "/".join(file)
             if(extention=='pdf'):
                 store.put(fullPath,title=titleName,content="Unable to read",ext=extention,image=path+"/"+titleName+".jpg")
-            elif(extention=='js' or extention[1]=='css' or extention[1]=='html' or extention[1]=='c' or extention[1]=='cpp' or extention[1]=='py' or extention[1]=='php'):
+            elif(extention=='js' or extention=='css' or extention=='html' or extention=='c' or extention=='cpp' or extention=='py' or extention=='php'):
                 store.put(fullPath,title=titleName,content=f.read(),ext=extention,image=extention+".jpg")
-            elif(extention=='' or extention[1]=='txt'):
-                 store.put(fullPath,title=titleName,content=f.read(),ext=extention,image="txt.jpg")
+            elif(extention=='' or extention=='txt'):
+                 store.put(fullPath,title=titleName,content=f.read(),ext=extention,image=path+"/"+titleName+".jpg")
         self.parent.children[-1].back()
-
-    def pdfView(self,*ar):
-        self.pdfSelected(ar)
-        fh = open(ar[0][0], "rb")
-        input = PdfFileReader(fh)
-        page=input.getPage(1)
-        store.put('data',content=page.extractText())
 
     def viewbook(self,*arr):
         book=store.get('data')
-        print (book)
+       # print (book)
 
 
 
