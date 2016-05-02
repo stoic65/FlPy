@@ -18,12 +18,7 @@ store = JsonStore('book1.json')
 import os
 text='rahul'
 store = JsonStore('books.json')
-store.put('name',something="This")
-class TopBar(BoxLayout):
-    def add_more(self):
-        self.parent.remove_widget(self.parent.children[0])
-        self.parent.add_widget(MyWidget())
-
+#store.put('name',something="This")
 
 
 
@@ -31,34 +26,60 @@ class MyTab(BoxLayout,AndroidTabsBase):
     pass
 class MainView(BoxLayout):
     pass
-
-
 class Shelf(BoxLayout):
     pass
 class AndTab(AndroidTabs):
     pass
 class BookButton(Button):
     pass
+
+
+def shelfLoader(root):
+
+    #Calculate here number of books in json store
+    NumberOfBooks = store.count()  #Assumedher
+    ShelfView = AndTab()
+    DifferentTabs = []
+    for i in range((NumberOfBooks//12)+1):
+        DifferentTabs.append(MyTab(text=str(i)))
+        ShelfView.add_widget(DifferentTabs[i])
+    root.add_widget(ShelfView)
+
+    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
+    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
+    DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg",text="Hello"))
+    print(root.children)
+
+
+        #view.children[0].add_widget(MyTab(text="yo"))
+    print (ShelfView.children)
+
+
+class TopBar(BoxLayout):
+    def add_more(self):
+        self.parent.remove_widget(self.parent.children[0])
+        self.parent.add_widget(MyWidget())
+    def back(self):
+        self.parent.remove_widget(self.parent.children[0])
+        shelfLoader(self.parent)
+
+
+
 class FlpyApp(App):
     def build(self):
         view = MainView(orientation="vertical")
         view.add_widget(TopBar())
-        ShelfView = AndTab()
-        DifferentTabs = []
-        for i in range(3):
-            DifferentTabs.append(MyTab(text=str(i)))
-            ShelfView.add_widget(DifferentTabs[i])
-        view.add_widget(ShelfView)
-
-        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
-        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
-        DifferentTabs[0].children[0].children[-1].add_widget(BookButton(background_normal="images.jpeg"))
-        print(view.children)
-
-
-        #view.children[0].add_widget(MyTab(text="yo"))
-        print (ShelfView.children)
+        shelfLoader(view)
         return view
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,70 +89,15 @@ class MyWidget(BoxLayout,Screen):
     def open(self, path, filename):
         with open(os.path.join(path, filename[0])) as f:
             file=filename[0].split('/')
-            extention=file[-1].split('.')
-            if(extention[1]=='pdf'):
-                self.pdfView(filename)
-                self.allSelected(filename)
-            elif(extention[1]=='js' or extention[1]=='css' or extention[1]=='html' or extention[1]=='c' or extention[1]=='cpp' or extention[1]=='py' or extention[1]=='php'):
-                store.put('data',content=f.read())
-                self.codSelected(filename)
-                self.allSelected(filename)
-            elif(extention[1]=='' or extention[1]=='txt'):
-                 store.put('data',content=f.read())
-                 self.extraSelected(filename)
-                 self.allSelected(filename)
-            else:
-            	   pass
-
-    def pdfSelected(self, *ar):
-        book=store.get('books')
-        file=ar[0][0][0]
-        temp=file.split('.')
-        imagepath=temp[0]+".jpg"
-        if(file in book['pdf']):
-            pass
-        else:
-            book['pdf'].insert(0,file)
-            book['pdfi'].insert(0,imagepath)
-            store.put('books',pdf=book['pdf'],pdfi=book['pdfi'],code=book['code'],codei=book['codei'],extra=book['extra'],extrai=book['extrai'],all=book['all'],alli=book['alli'])
-
-
-    def codSelected(self, *ar):
-        book=store.get('books')
-        file=ar[0][0]
-        temp=file.split('.')
-        imagepath=temp[0]+".jpg"
-        if(file in book['code']):
-            pass
-        else:
-            book['code'].insert(0,file)
-            book['codei'].insert(0,imagepath)
-            store.put('books',pdf=book['pdf'],pdfi=book['pdfi'],code=book['code'],codei=book['codei'],extra=book['extra'],extrai=book['extrai'],all=book['all'],alli=book['alli'])
-
-    def allSelected(self, *ar):
-        book=store.get('books')
-        file=ar[0][0]
-        temp=file.split('.')
-        imagepath=temp[0]+".jpg"
-        if(file in book['all']):
-            pass
-        else:
-            book['all'].insert(0,file)
-            book['alli'].insert(0,imagepath)
-            store.put('books',pdf=book['pdf'],pdfi=book['pdfi'],code=book['code'],codei=book['codei'],extra=book['extra'],extrai=book['extrai'],all=book['all'],alli=book['alli'])
-
-
-    def extraSelected(self, *ar):
-        book=store.get('books')
-        file=ar[0][0]
-        temp=file.split('.')
-        imagepath=temp[0]+".jpg"
-        if(file in book['extra']):
-            pass
-        else:
-            book['extra'].insert(0,file)
-            book['extrai'].insert(0,imagepath)
-            store.put('books',pdf=book['pdf'],pdfi=book['pdfi'],code=book['code'],codei=book['codei'],extra=book['extra'],extrai=book['extrai'],all=book['all'],alli=book['alli'])
+            titleName,extention=file[-1].split('.')
+            fullPath = "/".join(file)
+            if(extention=='pdf'):
+                store.put(fullPath,title=titleName,content="Unable to read",ext=extention,image=path+"/"+titleName+".jpg")
+            elif(extention=='js' or extention[1]=='css' or extention[1]=='html' or extention[1]=='c' or extention[1]=='cpp' or extention[1]=='py' or extention[1]=='php'):
+                store.put(fullPath,title=titleName,content=f.read(),ext=extention,image=extention+".jpg")
+            elif(extention=='' or extention[1]=='txt'):
+                 store.put(fullPath,title=titleName,content=f.read(),ext=extention,image="txt.jpg")
+        self.parent.children[-1].back()
 
     def pdfView(self,*ar):
         self.pdfSelected(ar)
